@@ -49,18 +49,21 @@
         echo "Fout bij aanmaken tabel vraag: " . $conn->error;
     }
 
-    $result = $conn->query('SELECT * FROM oefening');
-    $list = $result->fetch_all(MYSQLI_ASSOC);
-    foreach($list as &$l) {
-        $result = $conn->prepare('SELECT * FROM vraag WHERE oefening_id=? ');
-        $result->bind_param("s",$l["id"]);
-        $result->execute();
-        $result = $result->get_result();
-        $l["vragen"] = $result->fetch_all(MYSQLI_ASSOC);
-    }
-
     // Verbinding sluiten
     $conn->close();
+
+
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+
+    $stmt = $pdo->query('SELECT * FROM oefening');
+    $list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach($list as &$l) {
+        $stmt = $pdo->prepare('SELECT * FROM vraag WHERE oefening_id = ?');
+        $stmt->execute([$l["id"]]);
+        $l["vragen"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     header("Content-Type: application/json");
     echo json_encode($list);
