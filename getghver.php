@@ -1,4 +1,13 @@
 <?php 
     header("Content-Type: application/javascript");
+    $filepath = __DIR__ . DIRECTORY_SEPARATOR . ".git" . DIRECTORY_SEPARATOR . "ORIG_HEAD";
+    if(file_exists($filepath)){
 ?>
-window.githubversion = "<?php echo substr(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . ".git" . DIRECTORY_SEPARATOR . "ORIG_HEAD"),0,7); ?>";
+window.githubversion = "<?php echo substr(file_get_contents($filepath),0,7); ?>";
+<?php 
+    }else{
+?>
+window.githubversion = "ontwikkeling";
+<?php 
+    }
+?>

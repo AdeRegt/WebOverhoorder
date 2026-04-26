@@ -71,7 +71,14 @@ function saveDataToIndexedDB(db, data) {
 getCachedData().then(data => {
     data.every(function(element){
         var idiot = document.createElement("li");
-        idiot.innerHTML = "test";
+        idiot.innerHTML = element.naam;
+        idiot.setAttribute("oefening_id",element.id);
         document.getElementById("opgavenlijst").appendChild(idiot);
+    });
+
+    document.getElementById("opgavenlijst").addEventListener("item-select",function(a){
+        document.getElementById("vragenlijstnaam").innerText = a.detail.text;
+        document.getElementById("hoofdmenu").style.display = "none";
+        document.getElementById("toetsmenu").style.display = "flex";
     });
 });

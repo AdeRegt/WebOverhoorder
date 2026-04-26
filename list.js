@@ -8,12 +8,10 @@ class CustomList extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    // We wachten tot de DOM stabiel is
     setTimeout(() => {
       this.initItems();
     }, 50);
 
-    // Luister globaal zodat we toetsen vangen ongeacht waar de focus precies ligt
     window.addEventListener('keydown', this._onKeyDown);
   }
 
@@ -24,16 +22,36 @@ class CustomList extends HTMLElement {
   initItems() {
     const listItems = this.querySelectorAll('li');
     listItems.forEach((item, index) => {
-      item.setAttribute('tabindex', '-1'); // Voorkom dat je met 'Tab' door de hele lijst moet
+      item.setAttribute('tabindex', '-1');
       item.classList.remove('selected');
       
       item.addEventListener('click', () => {
         this.updateSelection(index);
+        this.emitSelection(); // Roep het event aan bij een klik
       });
     });
 
     if (listItems.length > 0) {
       this.updateSelection(0);
+    }
+  }
+
+  // Nieuwe methode om het event centraal te versturen
+  emitSelection() {
+    const listItems = Array.from(this.querySelectorAll('li'));
+    const selectedItem = listItems[this.currentIndex];
+    
+    if (selectedItem) {
+      this.dispatchEvent(new CustomEvent('item-select', {
+        detail: { 
+          text: selectedItem.textContent.trim(), 
+          index: this.currentIndex ,
+          item: selectedItem
+        },
+        bubbles: true,
+        composed: true
+      }));
+      console.log('Event verstuurd voor:', selectedItem.textContent.trim());
     }
   }
 
@@ -73,14 +91,13 @@ class CustomList extends HTMLElement {
         }
       </style>
       <ul id="list-container">
-        <slot id="main-slot"></slot>
+        <slot></slot>
       </ul>
     `;
   }
 
   handleKeyDown(e) {
-    // Alleen reageren als dit element (of een kind ervan) in beeld is/actief is
-    // Dit voorkomt dat andere lijsten op de pagina ook reageren
+    if(this.offsetParent === null) return;
     const listItems = Array.from(this.querySelectorAll('li'));
     if (listItems.length === 0) return;
 
@@ -91,14 +108,8 @@ class CustomList extends HTMLElement {
       e.preventDefault();
       this.updateSelection(this.currentIndex - 1);
     } else if (e.key === 'Enter') {
-      const selectedItem = listItems[this.currentIndex];
-      if (selectedItem) {
-        this.dispatchEvent(new CustomEvent('item-select', {
-          detail: { text: selectedItem.textContent, index: this.currentIndex },
-          bubbles: true,
-          composed: true
-        }));
-      }
+      e.preventDefault();
+      this.emitSelection(); // Roep het event aan bij Enter
     }
   }
 
@@ -106,17 +117,11 @@ class CustomList extends HTMLElement {
     const listItems = Array.from(this.querySelectorAll('li'));
     if (listItems.length === 0) return;
 
-    // Verwijder oude selectie
     listItems.forEach(item => item.classList.remove('selected'));
-
-    // Update index
     this.currentIndex = (newIndex + listItems.length) % listItems.length;
-
-    // Activeer nieuwe item
+    
     const nextItem = listItems[this.currentIndex];
     nextItem.classList.add('selected');
-    
-    // Zorg dat het item in beeld scrollt als de lijst lang is
     nextItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 }

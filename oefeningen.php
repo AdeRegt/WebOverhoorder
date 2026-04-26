@@ -49,10 +49,18 @@
         echo "Fout bij aanmaken tabel vraag: " . $conn->error;
     }
 
+    $result = $conn->query('SELECT * FROM oefening');
+    $list = $result->fetch_all(MYSQLI_ASSOC);
+    foreach($list as &$l) {
+        $result = $conn->prepare('SELECT * FROM vraag WHERE oefening_id=? ');
+        $result->bind_param("s",$l["id"]);
+        $result->execute();
+        $result = $result->get_result();
+        $l["vragen"] = $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // Verbinding sluiten
     $conn->close();
-
-    $list = Array();
 
     header("Content-Type: application/json");
     echo json_encode($list);

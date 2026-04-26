@@ -66,6 +66,7 @@ class CustomCard extends HTMLElement {
           font-size: 0.9rem;
           font-family: sans-serif;
         }
+         
       </style>
       <div class="main-card">
         <div class="side-panel">
