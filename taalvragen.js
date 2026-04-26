@@ -78,15 +78,8 @@ class CustomTaalvragen extends HTMLElement {
           transform: translateY(-2px);
         }
 
-        .counter {
-          text-align: right;
-          font-size: 12px;
-          color: #999;
-          margin-bottom: 10px;
-        }
       </style>
 
-      <div class="counter">Interactieve Oefening</div>
       <div id="exercise-wrapper"></div>
       
       <button id="next-btn">Volgende vraag ➔</button>
