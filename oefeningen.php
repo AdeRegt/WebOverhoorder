@@ -36,8 +36,6 @@
     $sql_vraag = "CREATE TABLE IF NOT EXISTS vraag (
         id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         oefening_id INT(11) UNSIGNED NOT NULL,
-        vraag_tekst TEXT NOT NULL,
-        antwoord_tekst TEXT NOT NULL,
         type ENUM('taal', 'topografie') NOT NULL,
         CONSTRAINT fk_oefening
             FOREIGN KEY (oefening_id) 
@@ -47,6 +45,23 @@
 
     if (!($conn->query($sql_vraag) === TRUE)) {
         echo "Fout bij aanmaken tabel vraag: " . $conn->error;
+    }
+
+    // 6. Tabel 'vraag_taal' aanmaken (met Foreign Key naar oefening)
+    $sql_vraag = "CREATE TABLE IF NOT EXISTS vraag_taal (
+        id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        vraag_id INT(11) UNSIGNED NOT NULL,
+        richting ENUM('vraag', 'antwoord') NOT NULL,
+        taal ENUM('nl_NL', 'en_EN') NOT NULL,
+        tekst TEXT NOT NULL,
+        CONSTRAINT fk_vraag
+            FOREIGN KEY (vraag_id) 
+            REFERENCES vraag(id)
+            ON DELETE CASCADE
+    ) ENGINE=InnoDB";
+
+    if (!($conn->query($sql_vraag) === TRUE)) {
+        echo "Fout bij aanmaken tabel vraag_taal: " . $conn->error;
     }
 
     // Verbinding sluiten
@@ -62,6 +77,11 @@
         $stmt = $pdo->prepare('SELECT * FROM vraag WHERE oefening_id = ?');
         $stmt->execute([$l["id"]]);
         $l["vragen"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($l["vragen"] as &$b){
+            $stmt = $pdo->prepare('SELECT * FROM vraag_taal WHERE vraag_id = ?');
+            $stmt->execute([$b["id"]]);
+            $b["talen"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
 

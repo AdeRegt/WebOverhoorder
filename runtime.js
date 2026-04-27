@@ -77,8 +77,13 @@ getCachedData().then(data => {
     });
 
     document.getElementById("opgavenlijst").addEventListener("item-select",function(a){
-        document.getElementById("vragenlijstnaam").innerText = a.detail.text;
         document.getElementById("hoofdmenu").style.display = "none";
         document.getElementById("toetsmenu").style.display = "flex";
+        var index = a.detail.item.getAttribute("oefening_id");
+        data.every(function(element){
+            if(element.id==index){
+                window.vragen = element.vragen;
+            }
+        });
     });
 });

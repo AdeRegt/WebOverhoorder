@@ -26,15 +26,6 @@
     </div>
     <div class="page-wrapper" style="display:none" id="toetsmenu">
         <custom-card icon-src="/icon.png">
-            <h2 id="vragenlijstnaam">Hoofdmenu</h2>
-            <script>
-            window.vragen = [
-                { from: "hallo", fromLang: "nl-NL", to: "hello", toLang: "en-GB" },
-                { from: "auto", fromLang: "nl-NL", to: "car", toLang: "en-GB" },
-                { from: "brood", fromLang: "nl-NL", to: "bread", toLang: "en-GB" }
-            ];
-            </script>
-
             <custom-taalvragen></custom-taalvragen>
         </custom-card>
     </div>

@@ -48,6 +48,8 @@
             file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . $file, file_get_contents($ophaalurl . $file));
         }
 
+        file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . "cgi-bin" . DIRECTORY_SEPARATOR . "hash.txt",$data["after"]);
+
     } else {
         // Validatie mislukt
         http_response_code(403);
