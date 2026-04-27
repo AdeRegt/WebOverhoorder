@@ -9,9 +9,8 @@ class QuestionnaireSetup extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`:host {
           display: block;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           max-width: 550px;
@@ -116,8 +115,9 @@ class QuestionnaireSetup extends HTMLElement {
 
         .error { color: #d93025; }
         .success { color: #188038; }
-        .processing { color: #5f6368; }
-      </style>
+        .processing { color: #5f6368; }`); // Je CSS hier
+    this.shadowRoot.adoptedStyleSheets = [sheet];
+    this.shadowRoot.innerHTML = `
 
       <div class="container">
         <h2>Nieuwe Vragenlijst</h2>
@@ -130,7 +130,7 @@ class QuestionnaireSetup extends HTMLElement {
           ></multi-keyboard>
         </div>
 
-        <div class="checkbox-group" onclick="this.querySelector('input').click()">
+        <div class="checkbox-group" id="cbg">
           <input type="checkbox" id="save-data">
           <label for="save-data">
             Sla deze vragenlijst op zodat deze voor iedereen beschikbaar is in de bibliotheek.
@@ -150,6 +150,7 @@ class QuestionnaireSetup extends HTMLElement {
     `;
 
     this.shadowRoot.querySelector('#submit-btn').addEventListener('click', () => this.handleSubmit());
+    this.shadowRoot.querySelector('#cbg').addEventListener('click', () => this.shadowRoot.querySelector('#save-data').click());
   }
 
   async handleSubmit() {

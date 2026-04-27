@@ -1,7 +1,11 @@
 body, html { margin: 0; padding: 0; height: 100%; background: #000; }
-        .page-wrapper {
+.page-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+
+.hide{
+  display: none;
 }

@@ -10,9 +10,8 @@ class CustomCard extends HTMLElement {
     const bgColor = this.getAttribute('color') || '#faf9f4';
     const gitver = window.githubversion || 'development';
 
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
+    const sheet = new CSSStyleSheet();
+  sheet.replaceSync(`:host {
           /* Zorgt dat de tag zelf zich gedraagt als een inline-block */
           display: inline-block; 
           width: 100%; /* Zodat de max-width van de kaart werkt */
@@ -66,8 +65,10 @@ class CustomCard extends HTMLElement {
           font-size: 0.9rem;
           font-family: sans-serif;
         }
-         
-      </style>
+         `); // Je CSS hier
+  this.shadowRoot.adoptedStyleSheets = [sheet];
+
+    this.shadowRoot.innerHTML = `
       <div class="main-card">
         <div class="side-panel">
         </div>

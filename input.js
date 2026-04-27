@@ -60,9 +60,8 @@ class MultiKeyboard extends HTMLElement {
       currentKeys = currentKeys.map(char => char.toLowerCase());
     }
 
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host { display: block; width: 100%; font-family: 'Segoe UI', sans-serif; }
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`:host { display: block; width: 100%; font-family: 'Segoe UI', sans-serif; }
         .wrapper { position: relative; width: 100%; }
         input {
           width: 100%; padding: 12px 45px 12px 12px;
@@ -98,9 +97,10 @@ class MultiKeyboard extends HTMLElement {
         }
         .special-keys { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
         .shift-btn { background: ${this.isShifted ? '#28a745' : '#666'}; color: white; padding: 10px; border-radius: 6px; border: none; cursor: pointer; }
-        .clear-btn { background: #dc3545; color: white; padding: 10px; border-radius: 6px; border: none; cursor: pointer; }
-      </style>
+        .clear-btn { background: #dc3545; color: white; padding: 10px; border-radius: 6px; border: none; cursor: pointer; }`); // Je CSS hier
+    this.shadowRoot.adoptedStyleSheets = [sheet];
 
+    this.shadowRoot.innerHTML = `
       <div class="wrapper">
         <input type="text" id="output" placeholder="${placeholder}" value="${currentVal}">
         <button class="toggle-btn" popovertarget="keyboard" id="trigger">

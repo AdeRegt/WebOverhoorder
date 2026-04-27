@@ -7,9 +7,9 @@ class AuroraSky extends HTMLElement {
     }
 
     connectedCallback() {
-        this.shadowRoot.innerHTML = `
-            <style>
-                :host {
+
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(`:host {
                     display: block;
                     position: fixed;
                     top: 0;
@@ -39,8 +39,10 @@ class AuroraSky extends HTMLElement {
                     position: absolute;
                     background: white;
                     border-radius: 50%;
-                }
-            </style>
+                }`); // Je CSS hier
+        this.shadowRoot.adoptedStyleSheets = [sheet];
+
+        this.shadowRoot.innerHTML = `
             <div id="sky"></div>
             <div class="stars" id="stars"></div>
             <canvas id="canvas"></canvas>

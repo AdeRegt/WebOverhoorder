@@ -1,3 +1,10 @@
+<?php 
+    header("Strict-Transport-Security: max-age=63072000; includeSubDomains");
+    header("Content-Security-Policy: default-src 'self' script-src 'wasm-unsafe-eval' https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js https://cdn.jsdelivr.net/npm/tesseract.js@v5.1.1/dist/worker.min.js https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.1.1/tesseract-core-simd-lstm.wasm.js worker-src blob: connect-src data: https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz https://cdn.jsdelivr.net/npm/@tesseract.js-data/nld/4.0.0_best_int/nld.traineddata.gz ");
+    header("X-Frame-Options: DENY");
+    header("X-Content-Type-Options: nosniff");
+    header("Referrer-Policy: strict-origin-when-cross-origin");
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -25,12 +32,12 @@
             </custom-list>
         </custom-card>
     </div>
-    <div class="page-wrapper" style="display:none" id="toetsmenu">
+    <div class="page-wrapper hide" id="toetsmenu">
         <custom-card icon-src="/icon.png">
             <custom-taalvragen></custom-taalvragen>
         </custom-card>
     </div>
-    <div class="page-wrapper" style="display:none" id="createmenu">
+    <div class="page-wrapper hide" id="createmenu">
         <custom-card icon-src="/icon.png">
             <questionnaire-setup></questionnaire-setup>
         </custom-card>

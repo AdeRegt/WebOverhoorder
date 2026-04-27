@@ -151,9 +151,8 @@ class ExerciseBlock extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host { display: block; font-family: 'Segoe UI', sans-serif; max-width: 600px; }
+    const sheet = new CSSStyleSheet();
+  sheet.replaceSync(`:host { display: block; font-family: 'Segoe UI', sans-serif; max-width: 600px; }
         .text-row { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
         h3 { margin: 0; font-size: 1.1rem; }
         .mode-selector { display: flex; gap: 5px; background: #eee; padding: 4px; border-radius: 8px; margin-bottom: 15px; }
@@ -178,11 +177,18 @@ class ExerciseBlock extends HTMLElement {
         .mic-btn { width: 64px; height: 64px; border-radius: 50%; border: none; background: #dc3545; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; }
         .recording { animation: pulse 1.5s infinite; background: #ff0000; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); } 70% { box-shadow: 0 0 0 12px rgba(220, 53, 69, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); } }
-      </style>
+        
+        #tts-btn{border:none; background:none; cursor:pointer; font-size:1.2rem;}
+        #write-status{font-size:0.85rem; color:#666;}
+        #speech-result{margin-top:10px; font-weight:bold; color:#007bff; min-height:1.2em;}
+        #pre-speech-result{margin-top:15px; color:#666;}
+        `); // Je CSS hier
+  this.shadowRoot.adoptedStyleSheets = [sheet];
+    this.shadowRoot.innerHTML = `
 
       <div class="text-row">
         <h3>${this.questionText}</h3>
-        <button id="tts-btn" style="border:none; background:none; cursor:pointer; font-size:1.2rem;" title="Voorlezen">🔊</button>
+        <button id="tts-btn" title="Voorlezen">🔊</button>
       </div>
 
       <div class="mode-selector">
@@ -208,14 +214,14 @@ class ExerciseBlock extends HTMLElement {
             <button id="clear-canvas" class="action-btn">Wissen</button>
             <button id="check-write" class="action-btn success-btn">Check Handschrift</button>
           </div>
-          <div id="write-status" style="font-size:0.85rem; color:#666;">Schrijf je antwoord duidelijk op het vlak.</div>
+          <div id="write-status">Schrijf je antwoord duidelijk op het vlak.</div>
         </div>
 
         <div class="${this.mode !== 'speak' ? 'hidden' : ''}">
           <div class="mic-area">
             <button id="mic-btn" class="mic-btn">🎙️</button>
-            <p style="margin-top:15px; color:#666;"><small>Klik op de microfoon om te antwoorden</small></p>
-            <div id="speech-result" style="margin-top:10px; font-weight:bold; color:#007bff; min-height:1.2em;"></div>
+            <p id="pre-speech-result"><small>Klik op de microfoon om te antwoorden</small></p>
+            <div id="speech-result"></div>
           </div>
         </div>
       </div>

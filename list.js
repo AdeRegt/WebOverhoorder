@@ -56,9 +56,8 @@ class CustomList extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`:host {
           display: block;
           outline: none;
         }
@@ -88,8 +87,9 @@ class CustomList extends HTMLElement {
           background-repeat: no-repeat !important;
           background-position: 15px center !important;
           background-size: 20px !important;
-        }
-      </style>
+        }`); // Je CSS hier
+    this.shadowRoot.adoptedStyleSheets = [sheet];
+    this.shadowRoot.innerHTML = `
       <ul id="list-container">
         <slot></slot>
       </ul>

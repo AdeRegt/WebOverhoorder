@@ -77,17 +77,17 @@ class CustomTaalvragen extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host { display: block; font-family: sans-serif; max-width: 650px; margin: 20px auto; }
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`:host { display: block; font-family: sans-serif; max-width: 650px; margin: 20px auto; }
         #next-btn {
           display: block; width: 100%; margin-top: 20px; padding: 12px;
           border: none; border-radius: 8px; background: #ddd; color: #777;
           font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
         #next-btn.ready { background: #007bff; color: white; }
-        .empty-state { text-align: center; color: #999; padding: 20px; border: 2px dashed #eee; border-radius: 8px; }
-      </style>
+        .empty-state { text-align: center; color: #999; padding: 20px; border: 2px dashed #eee; border-radius: 8px; }`); // Je CSS hier
+    this.shadowRoot.adoptedStyleSheets = [sheet];
+    this.shadowRoot.innerHTML = `
       <div id="exercise-wrapper">
         <div class="empty-state">Wachten op vragen...</div>
       </div>
