@@ -3,6 +3,8 @@ const DB_NAME = 'MijnApiCache';
 const DB_VERSION = 1;
 const STORE_NAME = 'producten';
 const API_URL = '/oefeningen.php';
+const DISPLAY_NONE = "none";
+const DISPLAY_ALL = "flex";
 
 async function getCachedData() {
     return new Promise((resolve, reject) => {
@@ -67,9 +69,15 @@ function saveDataToIndexedDB(db, data) {
     transaction.oncomplete = () => console.log("Data succesvol gecached.");
 }
 
+function closeAllWindows(){
+    document.getElementById("hoofdmenu").style.display = DISPLAY_NONE;
+    document.getElementById("toetsmenu").style.display = DISPLAY_NONE;
+    document.getElementById("createmenu").style.display = DISPLAY_NONE;
+}
+
 // Gebruik:
 getCachedData().then(data => {
-    data.every(function(element){
+    data.forEach(function(element){
         var idiot = document.createElement("li");
         idiot.innerHTML = element.naam;
         idiot.setAttribute("oefening_id",element.id);
@@ -77,13 +85,17 @@ getCachedData().then(data => {
     });
 
     document.getElementById("opgavenlijst").addEventListener("item-select",function(a){
-        document.getElementById("hoofdmenu").style.display = "none";
-        document.getElementById("toetsmenu").style.display = "flex";
+        closeAllWindows();
         var index = a.detail.item.getAttribute("oefening_id");
-        data.every(function(element){
-            if(element.id==index){
-                window.vragen = element.vragen;
-            }
-        });
+        if(typeof index === "undefined"||index==null){
+            document.getElementById("createmenu").style.display = DISPLAY_ALL;
+        }else{
+            document.getElementById("toetsmenu").style.display = DISPLAY_ALL;
+            data.forEach(function(element){
+                if(element.id==index){
+                    window.vragen = element.vragen;
+                }
+            });
+        }
     });
 });

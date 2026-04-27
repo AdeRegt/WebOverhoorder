@@ -10,6 +10,7 @@
     <script src="/input.js"></script>
     <script src="/oefening.js"></script>
     <script src="/taalvragen.js"></script>
+    <script src="/newtest.js"></script>
     <script src="/getghver.php"></script>
     <script src="/runtime.js"></script>
 </head>
@@ -27,6 +28,11 @@
     <div class="page-wrapper" style="display:none" id="toetsmenu">
         <custom-card icon-src="/icon.png">
             <custom-taalvragen></custom-taalvragen>
+        </custom-card>
+    </div>
+    <div class="page-wrapper" style="display:none" id="createmenu">
+        <custom-card icon-src="/icon.png">
+            <questionnaire-setup></questionnaire-setup>
         </custom-card>
     </div>
 </body>
