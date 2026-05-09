@@ -1,0 +1,72 @@
+{
+  "name": "Overhoorder - Oefeningen Platform",
+  "short_name": "Overhoorder",
+  "description": "Een interactief platform voor het maken en oefenen van taalvragen met OCR-ondersteuning",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2d3748",
+  "categories": ["education", "productivity"],
+  "screenshots": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Opgaven aanmaken",
+      "short_name": "Opgaves",
+      "description": "Nieuwe oefeningen en toetsen aanmaken",
+      "url": "/?page=create",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Taalvragen",
+      "short_name": "Vragen",
+      "description": "Taalvragen oefenen",
+      "url": "/?page=questions",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

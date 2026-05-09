@@ -1,0 +1,35 @@
+# PWA Apache Configuration
+<IfModule mod_headers.c>
+    # Service Worker MIME type
+    AddType application/javascript .js
+    
+    # Manifest MIME type
+    AddType application/manifest+json .webmanifest .manifest
+    
+    # Cache headers voor assets
+    <FilesMatch "\.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # Service Worker geen cache (altijd nieuw controleren)
+    <FilesMatch "^service-worker\.js$">
+        Header set Cache-Control "public, max-age=3600, must-revalidate"
+    </FilesMatch>
+    
+    # Manifest geen cache (kan bijgewerkt worden)
+    <FilesMatch "manifest\.(json|webmanifest)$">
+        Header set Cache-Control "public, max-age=3600, must-revalidate"
+    </FilesMatch>
+    
+    # HTML pagina's
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "public, max-age=3600, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# CORS headers voor externe resources
+<IfModule mod_headers.c>
+    <FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font\.css)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>

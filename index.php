@@ -10,6 +10,17 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2d3748">
+    <meta name="description" content="Een interactief platform voor het maken en oefenen van taalvragen met OCR-ondersteuning">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Overhoorder">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>Welkom | Overhoorder</title>
     <link rel="stylesheet" href="host.css">
     <script src="/aurora.js"></script>
@@ -43,5 +54,28 @@
             <questionnaire-setup></questionnaire-setup>
         </custom-card>
     </div>
+    <script>
+        // Service Worker registratie
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('[PWA] Service Worker geregistreerd:', registration);
+                        
+                        // Check voor updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('[PWA] Nieuwe versie beschikbaar');
+                                    // Je kan hier een notificatie tonen aan de gebruiker
+                                }
+                            });
+                        });
+                    })
+                    .catch(error => console.error('[PWA] Service Worker registratie mislukt:', error));
+            });
+        }
+    </script>
 </body>
 </html>
